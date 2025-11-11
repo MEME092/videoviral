@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5710936095528547"
+     crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Viral - Reproductor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      margin-top: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      height: 60px;
+      border-radius: 10px;
+      filter: drop-shadow(0 0 10px rgba(0, 210, 255, 0.6));
+    }
+
+    .player-container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .player-title {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+      color: #00d2ff;
+    }
+
+    .video-info {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 10px;
+      background: rgba(0, 210, 255, 0.1);
+      border-radius: 8px;
+    }
+
+    .video-player-container {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    #video-player {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
+
+    /* 🎨 EFECTO PIXELADO FUERTE + BOTÓN DE REPRODUCIR */
+    .video-player-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://raw.githubusercontent.com/MEME092/ZenitTrucoNight/480a04b12775ed60351d11f0a6405a57dd2e4347/darry.jpg');
+      background-size: cover;
+      background-position: center;
+      image-rendering: pixelated;
+      transform: scale(3); /* Aumenta el pixelado */
+      filter: brightness(0.8);
+      z-index: 1;
+    }
+
+    .video-player-container::after {
+      content: "\f04b";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      color: white;
+      font-size: 60px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      background: rgba(0,0,0,0.7);
+      border-radius: 50%;
+      padding: 25px 30px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .video-player-container:hover::after {
+      background: rgba(0,0,0,0.9);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .time-display {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 15px 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #00d2ff;
+      border-radius: 5px;
+      transition: width 0.1s;
+    }
+
+    .player-controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .control-btn {
+      background: #00d2ff;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: bold;
+    }
+
+    .control-btn:hover {
+      background: #00b0d4;
+      transform: translateY(-2px);
+    }
+
+    .control-btn i {
+      font-size: 1.2rem;
+    }
+
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .volume-control span {
+      min-width: 70px;
+    }
+
+    .volume-control input {
+      width: 100%;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #00d2ff;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .social-share {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .social-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #00d2ff;
+      color: white;
+      font-size: 1.5rem;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .social-btn:hover {
+      transform: scale(1.1);
+      background: #00b0d4;
+    }
+
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      .player-controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-container">
+        <img src="https://raw.githubusercontent.com/MEME092/ZenitTrucoNight/480a04b12775ed60351d11f0a6405a57dd2e4347/darry.jpg" alt="Logo" class="logo">
+      </div>
+    </header>
+
+    <div class="player-container">
+      <h2 class="player-title">Video Viral</h2>
+
+      <div class="video-info">
+        <p><i class="fas fa-fire"></i> <strong>Trending:</strong> Más de 1M de visualizaciones</p>
+      </div>
+
+      <div class="video-player-container">
+        <video id="video-player" poster="https://raw.githubusercontent.com/MEME092/ZenitTrucoNight/480a04b12775ed60351d11f0a6405a57dd2e4347/darry.jpg">
+          Tu navegador no soporta el elemento de video.
+        </video>
+      </div>
+
+      <div class="time-display">
+        <span id="current-time">00:00</span>
+        <span id="duration">00:00</span>
+      </div>
+
+      <div class="progress-container" id="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <div class="player-controls">
+        <button class="control-btn" id="play-btn"><i class="fas fa-play"></i> Reproducir</button>
+        <button class="control-btn" id="pause-btn"><i class="fas fa-pause"></i> Pausar</button>
+        <button class="control-btn" id="mute-btn"><i class="fas fa-volume-up"></i> Silenciar</button>
+
+        <div class="volume-control">
+          <span>Volumen:</span>
+          <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.7">
+        </div>
+
+        <button class="control-btn" id="fullscreen-btn"><i class="fas fa-expand"></i> Pantalla Completa</button>
+      </div>
+
+      <div class="social-share">
+        <div class="social-btn"><i class="fab fa-facebook-f"></i></div>
+        <div class="social-btn"><i class="fab fa-twitter"></i></div>
+        <div class="social-btn"><i class="fab fa-whatsapp"></i></div>
+        <div class="social-btn"><i class="fas fa-share-alt"></i></div>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2025 Video Viral - Todos los derechos reservados</p>
+    </footer>
+  </div>
+</body>
+</html>
